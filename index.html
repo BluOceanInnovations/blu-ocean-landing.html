@@ -1,4 +1,3 @@
-<!-- x -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1571,9 +1570,17 @@
       <!-- ===== VSL ===== -->
       <div class="hero-vsl-wrap" aria-label="Watch the 90-second walkthrough">
         <div class="hero-vsl-glow" aria-hidden="true"></div>
-        <div class="hero-vsl-frame" id="hero-vsl-frame" role="button" tabindex="0" aria-label="Play video — 90-second walkthrough">
-          <div class="hero-vsl-thumbnail" aria-hidden="true">
-            <!-- Decorative ocean wave silhouette behind play button -->
+        <div class="hero-vsl-frame" id="hero-vsl-frame">
+          <video
+            id="hero-vsl-video"
+            src="Marketing_Math_Problem__Fix_Your_Revenue_Plan.mp4"
+            playsinline
+            controls
+            preload="metadata"
+            aria-label="Blu Ocean Innovations — Marketing Math walkthrough"
+            style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:18px;">
+          </video>
+          <div class="hero-vsl-thumbnail" id="hero-vsl-thumbnail" aria-hidden="true">
             <svg viewBox="0 0 600 340" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0;width:100%;height:100%;opacity:0.55;">
               <defs>
                 <linearGradient id="vslWave1" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -1599,11 +1606,11 @@
               </path>
             </svg>
           </div>
-          <span class="hero-vsl-caption">Watch · 90 sec</span>
-          <button class="hero-vsl-play" aria-label="Play video">
+          <span class="hero-vsl-caption" id="hero-vsl-caption">Watch · 90 sec</span>
+          <button class="hero-vsl-play" id="hero-vsl-play-btn" aria-label="Play video">
             <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
           </button>
-          <div class="hero-vsl-runtime"><span class="live-dot"></span>From your senior marketer</div>
+          <div class="hero-vsl-runtime" id="hero-vsl-runtime"><span class="live-dot"></span>From your senior marketer</div>
         </div>
         <p class="hero-vsl-foot">
           <strong>See the system in action.</strong>
@@ -2373,26 +2380,26 @@
     } catch(e){}
   });
 
-  // ====== VSL play behavior ======
-  // Replace the YouTube/Vimeo URL below with your actual VSL when ready.
-  const VSL_EMBED_URL = 'https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&rel=0&modestbranding=1';
-  const vslFrame = document.getElementById('hero-vsl-frame');
+  // ====== VSL play behavior (native MP4) ======
+  const vslFrame     = document.getElementById('hero-vsl-frame');
+  const vslVideo     = document.getElementById('hero-vsl-video');
+  const vslThumb     = document.getElementById('hero-vsl-thumbnail');
+  const vslCaption   = document.getElementById('hero-vsl-caption');
+  const vslPlayBtn   = document.getElementById('hero-vsl-play-btn');
+  const vslRuntime   = document.getElementById('hero-vsl-runtime');
+
   function playVSL() {
-    if (vslFrame.classList.contains('playing')) return;
-    const iframe = document.createElement('iframe');
-    iframe.src = VSL_EMBED_URL;
-    iframe.allow = 'autoplay; encrypted-media; picture-in-picture';
-    iframe.allowFullscreen = true;
-    iframe.title = 'Blu Ocean Innovations — 90-second walkthrough';
-    vslFrame.appendChild(iframe);
-    vslFrame.classList.add('playing');
+    if (!vslVideo) return;
+    vslThumb.style.display   = 'none';
+    vslCaption.style.display = 'none';
+    vslPlayBtn.style.display = 'none';
+    vslRuntime.style.display = 'none';
+    vslVideo.style.zIndex    = '3';
+    vslVideo.play();
   }
-  if (vslFrame) {
-    vslFrame.addEventListener('click', playVSL);
-    vslFrame.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); playVSL(); }
-    });
-  }
+
+  if (vslPlayBtn) vslPlayBtn.addEventListener('click', playVSL);
+  if (vslThumb)   vslThumb.addEventListener('click', playVSL);
 
   // ====== Exit-Intent Modal ======
   const exitOverlay = document.getElementById('exit-overlay');
