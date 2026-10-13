@@ -1,0 +1,10 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "redirects": [
+    {
+      "source": "/growth",
+      "destination": "https://app.mplannerpro.com/bdb2f41934/chat?pg=a24dcc9813",
+      "permanent": false
+    }
+  ]
+}
